@@ -1,93 +1,118 @@
-export type Page = 'home' | 'services' | 'service-details' | 'about' | 'contact';
+export type Page = 'home' | 'features' | 'pricing' | 'about' | 'contact';
 
-export type PropertyType = 'residential' | 'commercial' | 'multi-family' | 'industrial';
-
-export type ServiceType = 
-  | 'roof-replacement' 
-  | 'roof-repair' 
-  | 'commercial-roofing' 
-  | 'roof-inspection' 
-  | 'emergency-repair';
-
-export interface QuoteFormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  propertyType: PropertyType;
-  serviceRequired: ServiceType;
-  estimatedSqFt?: string;
-  roofAge?: string;
-  urgency?: 'immediate' | 'within-month' | 'planning';
-  address?: string;
-  message?: string;
-}
-
-export interface QuoteSubmission extends QuoteFormData {
+export interface FeatureItem {
   id: string;
-  referenceNumber: string;
-  createdAt: string;
-  status: 'new' | 'contacted' | 'scheduled' | 'quoted' | 'archived';
+  title: string;
+  category: string;
+  tagline: string;
+  description: string;
+  iconName: string;
+  capabilities: string[];
+  metric: {
+    value: string;
+    label: string;
+  };
+  previewVisualType: 'task-planning' | 'workflow-automation' | 'team-collaboration' | 'project-analytics' | 'ai-summaries' | 'calendar-sync';
 }
 
-export interface ServiceDetail {
-  id: ServiceType;
-  title: string;
+export interface PricingTier {
+  id: 'free' | 'pro' | 'business' | 'enterprise';
+  name: string;
   tagline: string;
-  shortDesc: string;
-  fullDesc: string;
-  duration: string;
-  startingPrice: string;
-  warranty: string;
-  iconName: string;
-  heroImage: string;
-  idealFor: string[];
-  keyBenefits: string[];
-  processSteps: {
-    step: number;
-    title: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  popular?: boolean;
+  badge?: string;
+  ctaText: string;
+  ctaVariant: 'primary' | 'secondary' | 'outline';
+  targetAudience: string;
+  keyFeatures: string[];
+}
+
+export interface PricingFeatureComparison {
+  category: string;
+  features: {
+    name: string;
     description: string;
-  }[];
-  materialsUsed: string[];
-  faqs: {
-    question: string;
-    answer: string;
+    free: boolean | string;
+    pro: boolean | string;
+    business: boolean | string;
+    enterprise: boolean | string;
   }[];
 }
 
 export interface Testimonial {
   id: string;
+  quote: string;
   author: string;
   role: string;
-  location: string;
-  rating: number;
-  projectType: string;
-  quote: string;
+  company: string;
+  avatarUrl: string;
+  impactMetric: {
+    value: string;
+    label: string;
+  };
   verified: boolean;
-  completionDate: string;
-  avatarUrl?: string;
-}
-
-export interface ProjectCase {
-  id: string;
-  title: string;
-  category: string;
-  location: string;
-  duration: string;
-  materials: string;
-  description: string;
-  imageUrl: string;
-  statHighlight: string;
-}
-
-export interface TrustIndicator {
-  label: string;
-  value: string;
-  subtext: string;
-  icon: string;
 }
 
 export interface FAQItem {
+  id: string;
   question: string;
   answer: string;
-  category: 'general' | 'pricing' | 'process' | 'insurance';
+  category: 'general' | 'features' | 'pricing' | 'security' | 'integrations';
+}
+
+export interface IntegrationItem {
+  id: string;
+  name: string;
+  category: 'Communication' | 'Development' | 'Design' | 'Calendar' | 'Docs';
+  description: string;
+  iconName: string;
+  popular: boolean;
+  type?: string;
+  syncStatus?: string;
+}
+
+export type ContactInquiryType = 'sales' | 'demo' | 'support' | 'partnership';
+
+export interface WorkflowDemoPreset {
+  id: string;
+  title: string;
+  trigger: string;
+  description: string;
+  steps: {
+    id: number;
+    actor: 'system' | 'ai' | 'integration';
+    title: string;
+    detail: string;
+    timeMs: string;
+    status: 'completed' | 'active' | 'queued';
+  }[];
+  outputSummary: string;
+  impactSavedTime: string;
+}
+
+export interface TrialLeadSubmission {
+  id: string;
+  fullName: string;
+  email: string;
+  companyName: string;
+  teamSize: string;
+  primaryUseCase: string;
+  planInterest: string;
+  createdAt: string;
+  status: 'trial-active' | 'demo-requested' | 'new';
+}
+
+export interface ContactInquirySubmission {
+  id: string;
+  fullName: string;
+  email: string;
+  company: string;
+  subject: string;
+  message: string;
+  inquiryType: 'sales' | 'demo' | 'support' | 'partnership';
+  referenceNumber: string;
+  createdAt: string;
+  status: 'new' | 'in-review' | 'responded';
 }

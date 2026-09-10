@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Shield, Menu, X, ArrowRight, Database, ChevronDown } from 'lucide-react';
+import { Sparkles, Menu, X, ArrowRight, Database, ExternalLink, Code2 } from 'lucide-react';
 import { Page } from '../../types';
-import { COMPANY_INFO } from '../../data/roofingData';
+import { BRAND_CONFIG } from '../../data/flowDeskData';
 import { Button } from '../ui/Button';
 
 interface NavbarProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
-  onOpenQuoteModal: () => void;
+  onOpenTrialModal: (planId?: string) => void;
   onOpenSubmissionsModal: () => void;
   submissionsCount: number;
 }
@@ -15,7 +15,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   currentPage,
   onNavigate,
-  onOpenQuoteModal,
+  onOpenTrialModal,
   onOpenSubmissionsModal,
   submissionsCount
 }) => {
@@ -24,7 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 16);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -32,10 +32,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks: { label: string; page: Page }[] = [
     { label: 'Home', page: 'home' },
-    { label: 'Services', page: 'services' },
-    { label: 'Service Details', page: 'service-details' },
-    { label: 'About Us', page: 'about' },
-    { label: 'Contact / Quote', page: 'contact' }
+    { label: 'Features', page: 'features' },
+    { label: 'Pricing', page: 'pricing' },
+    { label: 'About', page: 'about' },
+    { label: 'Contact', page: 'contact' }
   ];
 
   const handleNavClick = (page: Page) => {
@@ -46,41 +46,30 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full transition-all duration-200">
-      {/* Top Utility Bar */}
-      <div className="bg-[#07101C] text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+      {/* Portfolio Disclaimer Top Banner */}
+      <div className="bg-[#0F172A] text-slate-300 text-[11px] py-1.5 px-4 border-b border-[#1E293B]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-6">
-            <span className="inline-flex items-center gap-1.5 text-amber-400 font-medium">
-              <Shield className="w-3.5 h-3.5" />
-              <span>GAF Master Elite Contractor</span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 font-semibold text-[#60A5FA] bg-[#1E293B] px-2 py-0.5 rounded text-[10px] tracking-wide uppercase">
+              Portfolio Showcase
             </span>
-            <span className="hidden md:inline-block text-slate-500">|</span>
-            <span className="hidden md:inline-block text-slate-400">
-              License {COMPANY_INFO.license.split(' ')[2]} • Fully Insured ($2M)
+            <span className="text-slate-300 hidden sm:inline">
+              FlowDesk AI is a fictional SaaS concept designed for a UI/UX & Web Design job portfolio.
             </span>
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-3">
             <button
               onClick={onOpenSubmissionsModal}
-              className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition-colors border border-slate-700 text-[11px] cursor-pointer"
-              title="View quote submissions saved to Firestore/local storage"
+              className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors cursor-pointer bg-[#1E293B] px-2.5 py-0.5 rounded-full border border-slate-700 text-[11px]"
+              title="Inspect lead capture records stored in Firestore / Local Engine"
             >
-              <Database className="w-3 h-3 text-[#E8681A]" />
-              <span>Leads Database</span>
-              <span className="w-4 h-4 rounded-full bg-[#E8681A] text-white font-bold flex items-center justify-center text-[10px]">
+              <Database className="w-3 h-3 text-[#2563EB]" />
+              <span className="hidden md:inline">Submissions Log</span>
+              <span className="w-4 h-4 rounded-full bg-[#2563EB] text-white font-bold flex items-center justify-center text-[10px]">
                 {submissionsCount}
               </span>
             </button>
-
-            <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
-              className="inline-flex items-center gap-1.5 font-semibold text-white hover:text-[#E8681A] transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#E8681A]" />
-              <span className="hidden sm:inline">Dispatch:</span>
-              <span>{COMPANY_INFO.phone}</span>
-            </a>
           </div>
         </div>
       </div>
@@ -89,30 +78,32 @@ export const Navbar: React.FC<NavbarProps> = ({
       <nav
         className={`w-full transition-all duration-200 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md py-3.5 border-b border-slate-200'
-            : 'bg-white py-4 border-b border-slate-200/80'
+            ? 'bg-white/95 backdrop-blur-md shadow-xs py-3 border-b border-[#E2E8F0]'
+            : 'bg-white py-4 border-b border-[#E2E8F0]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo */}
+          {/* Brand Logo */}
           <button
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none"
+            aria-label="FlowDesk AI Home"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#0B192C] flex items-center justify-center text-white shadow-sm group-hover:bg-[#162844] transition-colors relative overflow-hidden">
-              {/* Modern geometric roof apex logo mark */}
-              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m2 18 10-12 10 12" />
-                <path d="M12 6v14" className="text-[#E8681A] stroke-[#E8681A]" />
+            <div className="w-9 h-9 rounded-xl bg-[#0F172A] flex items-center justify-center text-white shadow-xs group-hover:bg-[#1E293B] transition-colors relative overflow-hidden">
+              {/* Minimalist Flow Logo Mark */}
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M4 7h10a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4H4" strokeLinecap="round" />
+                <circle cx="4" cy="7" r="2" fill="#2563EB" stroke="none" />
+                <circle cx="4" cy="17" r="2" fill="#2563EB" stroke="none" />
+                <circle cx="14" cy="12" r="2" fill="#FFFFFF" stroke="none" />
               </svg>
             </div>
             <div>
               <div className="flex items-center gap-1">
-                <span className="text-xl font-extrabold tracking-tight text-[#0B192C]">APEX</span>
-                <span className="text-xl font-semibold tracking-tight text-[#E8681A]">ROOFING</span>
-              </div>
-              <div className="text-[10px] font-semibold text-[#64748B] tracking-widest uppercase">
-                Contractor Group
+                <span className="text-lg font-extrabold tracking-tight text-[#0F172A]">FlowDesk</span>
+                <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE]">
+                  AI
+                </span>
               </div>
             </div>
           </button>
@@ -125,10 +116,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={link.page}
                   onClick={() => handleNavClick(link.page)}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${
                     isActive
-                      ? 'text-[#E8681A] bg-[#E8681A]/10 font-bold'
-                      : 'text-[#1E293B] hover:text-[#0B192C] hover:bg-slate-100'
+                      ? 'text-[#2563EB] bg-[#EFF6FF] font-bold'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
                   }`}
                 >
                   {link.label}
@@ -139,33 +130,38 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Action CTA */}
           <div className="hidden sm:flex items-center gap-3">
-            <Button
-              size="md"
-              variant="primary"
-              onClick={onOpenQuoteModal}
-              rightIcon={<ArrowRight className="w-4 h-4" />}
+            <button
+              onClick={() => handleNavClick('features')}
+              className="text-xs font-semibold text-[#475569] hover:text-[#0F172A] px-3 py-2 cursor-pointer transition-colors"
             >
-              Get a Free Quote
+              How It Works
+            </button>
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => onOpenTrialModal()}
+              rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+            >
+              Start Free Trial
             </Button>
           </div>
 
-          {/* Mobile menu trigger */}
+          {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
             <Button
               size="sm"
               variant="primary"
-              onClick={onOpenQuoteModal}
-              className="sm:hidden text-xs"
+              onClick={() => onOpenTrialModal()}
+              className="text-xs px-3"
             >
-              Free Quote
+              Free Trial
             </Button>
-
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-[#0B192C] hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#0B192C]"
+              className="p-2 rounded-lg text-[#0F172A] hover:bg-[#F1F5F9] focus:outline-none focus:ring-2 focus:ring-[#2563EB] cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -173,39 +169,39 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[96px] bg-white border-b border-slate-200 shadow-xl p-5 flex flex-col gap-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="flex flex-col gap-1 pb-4 border-b border-slate-100">
+        <div className="lg:hidden fixed inset-x-0 top-[92px] bg-white border-b border-[#E2E8F0] shadow-xl p-5 flex flex-col gap-2 z-50">
+          <div className="flex flex-col gap-1 pb-4 border-b border-[#F1F5F9]">
             {navLinks.map(link => {
               const isActive = currentPage === link.page;
               return (
                 <button
                   key={link.page}
                   onClick={() => handleNavClick(link.page)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-lg text-base font-semibold text-left transition-colors ${
+                  className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-semibold text-left transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-[#E8681A]/10 text-[#E8681A] font-bold'
-                      : 'text-[#1E293B] hover:bg-slate-100'
+                      ? 'bg-[#EFF6FF] text-[#2563EB] font-bold'
+                      : 'text-[#334155] hover:bg-[#F8FAFC]'
                   }`}
                 >
                   <span>{link.label}</span>
-                  {isActive && <span className="w-2 h-2 rounded-full bg-[#E8681A]" />}
+                  {isActive && <span className="w-2 h-2 rounded-full bg-[#2563EB]" />}
                 </button>
               );
             })}
           </div>
 
-          <div className="pt-2 flex flex-col gap-3">
+          <div className="pt-2 flex flex-col gap-2.5">
             <Button
-              size="lg"
+              size="md"
               variant="primary"
               className="w-full"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenQuoteModal();
+                onOpenTrialModal();
               }}
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
-              Get a Free Quote
+              Start 14-Day Free Trial
             </Button>
 
             <button
@@ -213,19 +209,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenSubmissionsModal();
               }}
-              className="w-full py-2.5 px-4 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 text-xs font-semibold text-[#475569] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Database className="w-4 h-4 text-[#E8681A]" />
+              <Database className="w-3.5 h-3.5 text-[#2563EB]" />
               <span>Review Lead Submissions ({submissionsCount})</span>
             </button>
-
-            <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
-              className="flex items-center justify-center gap-2 py-3 text-sm font-bold text-[#0B192C] bg-slate-100 hover:bg-slate-200 rounded-lg"
-            >
-              <Phone className="w-4 h-4 text-[#E8681A]" />
-              <span>Call {COMPANY_INFO.phone}</span>
-            </a>
           </div>
         </div>
       )}

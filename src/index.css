@@ -4,26 +4,32 @@
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
-  --color-brand-navy: #0B192C;
-  --color-brand-navy-dark: #07101C;
-  --color-brand-navy-light: #162844;
-  --color-brand-offwhite: #FBFBFA;
-  --color-brand-sand: #F3F4F1;
-  --color-brand-orange: #E8681A;
-  --color-brand-orange-hover: #D0560F;
-  --color-brand-orange-light: #FFF5EE;
-  --color-brand-charcoal: #1E293B;
-  --color-brand-muted: #64748B;
-  --color-brand-border: #E2E8F0;
+  --color-brand-primary: #2563EB;
+  --color-brand-primary-hover: #1D4ED8;
+  --color-brand-primary-light: #EFF6FF;
+  --color-brand-primary-border: #BFDBFE;
+  
+  --color-brand-slate-900: #0F172A;
+  --color-brand-slate-800: #1E293B;
+  --color-brand-slate-700: #334155;
+  --color-brand-slate-600: #475569;
+  --color-brand-slate-500: #64748B;
+  --color-brand-slate-400: #94A3B8;
+  --color-brand-slate-200: #E2E8F0;
+  --color-brand-slate-100: #F1F5F9;
+  --color-brand-slate-50: #F8FAFC;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
+    color: #0F172A;
+    background-color: #F8FAFC;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }

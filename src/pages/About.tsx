@@ -1,192 +1,225 @@
 import React from 'react';
-import { 
-  ShieldCheck, 
-  Award, 
-  Users, 
-  HardHat, 
-  CheckCircle2, 
-  Building2, 
-  Clock, 
-  HeartHandshake,
-  ArrowRight,
-  Info
-} from 'lucide-react';
-import { COMPANY_INFO, TRUST_INDICATORS } from '../data/roofingData';
-import { SectionHeading } from '../components/ui/SectionHeading';
+import { Page } from '../types';
+import { BRAND_CONFIG, TEAM_MEMBERS } from '../data/flowDeskData';
 import { Button } from '../components/ui/Button';
-import { TrustBadge } from '../components/ui/TrustBadge';
 import { CTASection } from '../components/ui/CTASection';
+import {
+  Sparkles,
+  Shield,
+  Palette,
+  Heart,
+  Target,
+  ArrowRight,
+  Code2,
+  Cpu,
+  Layers,
+  CheckCircle2,
+  Compass
+} from 'lucide-react';
 
 interface AboutProps {
-  onOpenQuote: () => void;
+  onNavigate: (page: Page) => void;
+  onOpenTrial: () => void;
 }
 
-export const About: React.FC<AboutProps> = ({ onOpenQuote }) => {
+export const About: React.FC<AboutProps> = ({ onNavigate, onOpenTrial }) => {
   return (
-    <div className="w-full bg-[#FBFBFA]">
-      {/* About Header */}
-      <section className="bg-[#0B192C] text-white py-16 sm:py-24 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#E8681A] mb-4">
-            <Award className="w-3.5 h-3.5" />
-            <span>Built on Uncompromising Standards</span>
+    <div className="w-full bg-[#FAFAFA] text-[#0F172A]">
+      {/* Hero Header */}
+      <section className="bg-white border-b border-[#E2E8F0] pt-16 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-xs font-semibold text-[#2563EB] mb-4">
+            <Compass className="w-3.5 h-3.5" />
+            <span>Our Mission & Design Thesis</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            About Apex Roofing
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F172A] leading-tight mb-5">
+            Restoring deep focus to modern software creation.
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Founded with a singular mission: to eliminate the corner-cutting, aggressive sales tactics, and hidden costs rampant in the roofing industry through engineering rigor.
+
+          <p className="text-lg text-[#475569] max-w-2xl mx-auto leading-relaxed mb-8">
+            Modern product teams don’t suffer from a shortage of talent. They suffer from catastrophic coordination fragmentation. FlowDesk AI exists to fix that.
+          </p>
+
+          {/* Portfolio Disclosure Box */}
+          <div className="max-w-2xl mx-auto p-4 bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl text-xs text-[#1E3A8A] text-left flex items-start gap-3">
+            <Sparkles className="w-4 h-4 text-[#2563EB] shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Portfolio Showcase Note:</strong> FlowDesk AI is a fictional SaaS concept designed and engineered to demonstrate high-level product design, design systems architecture, and responsive front-end craftsmanship for a professional UI/UX and web design role.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Problem & The Solution */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2563EB] bg-[#EFF6FF] px-2.5 py-1 rounded-md mb-3 inline-block">
+              The Genesis
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-4">
+              Why we re-imagined the modern workflow.
+            </h2>
+            <p className="text-sm sm:text-base text-[#475569] leading-relaxed mb-4">
+              Over the last decade, our tools multiplied. Code moved to GitHub, discussions to Slack, task tracking to Jira, specifications to Notion, and scheduling to Google Calendar.
+            </p>
+            <p className="text-sm sm:text-base text-[#475569] leading-relaxed mb-6">
+              Instead of helping teams build, this sprawl turned engineers and product managers into human routers—manually copying updates, resolving stale tickets, and sitting in meetings just to explain what they were already doing.
+            </p>
+            <div className="p-4 bg-white border border-[#E2E8F0] rounded-xl space-y-2 text-xs text-[#334155]">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#2563EB]" />
+                <span>38% of developer time was lost to context-switching between tools</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#2563EB]" />
+                <span>Average engineer had only 1.8 hours of uninterrupted deep focus per day</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#2563EB]" />
+                <span>FlowDesk was built to invert this ratio autonomously</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-8 shadow-sm">
+            <h3 className="text-xl font-bold text-[#0F172A] mb-4">
+              Our Core Operating Principles
+            </h3>
+            <div className="space-y-4 text-xs sm:text-sm">
+              <div className="p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+                <div className="font-bold text-[#0F172A] mb-1">
+                  1. Autonomous by Default, Human in Full Control
+                </div>
+                <p className="text-[#64748B]">
+                  FlowDesk synthesizes work and proposes actions, but critical deployments and releases remain transparently auditable.
+                </p>
+              </div>
+
+              <div className="p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+                <div className="font-bold text-[#0F172A] mb-1">
+                  2. Defend Deep Work at All Costs
+                </div>
+                <p className="text-[#64748B]">
+                  Great software requires unbroken stretches of concentrated thought. We treat 3-hour focus blocks as sacred territory.
+                </p>
+              </div>
+
+              <div className="p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+                <div className="font-bold text-[#0F172A] mb-1">
+                  3. Grounded Context Over Empty AI Buzzwords
+                </div>
+                <p className="text-[#64748B]">
+                  No hallucinated chat bots. Our AI queries deterministic data graphs of real pull requests, commits, and user stories.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* UI/UX Design System Case Study Breakdown */}
+      <section className="py-16 sm:py-24 bg-white border-y border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-xs font-semibold text-[#2563EB] mb-3">
+              <Palette className="w-3.5 h-3.5" />
+              <span>Design System Case Study</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+              Intentional craftsmanship behind FlowDesk AI.
+            </h2>
+            <p className="text-base text-[#64748B]">
+              A closer look at the typographic, spatial, and visual decisions that define this website.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-6">
+              <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-4">
+                <Palette className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-[#0F172A] mb-2">
+                Single Strong Accent (#2563EB)
+              </h3>
+              <p className="text-xs text-[#475569] leading-relaxed mb-4">
+                Rather than muddying the interface with rainbow gradients or generic neon AI glows, we utilize a single, authoritative cobalt accent paired with warm neutral slates.
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded bg-[#2563EB]" title="#2563EB Primary" />
+                <div className="w-6 h-6 rounded bg-[#0F172A]" title="#0F172A Dark Slate" />
+                <div className="w-6 h-6 rounded bg-[#F8FAFC] border" title="#F8FAFC Canvas" />
+              </div>
+            </div>
+
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-6">
+              <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-4">
+                <Code2 className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-[#0F172A] mb-2">
+                Mathematical Spacing & Hierarchy
+              </h3>
+              <p className="text-xs text-[#475569] leading-relaxed mb-4">
+                Structured with low-contrast micro-borders (1px #E2E8F0) and strict nested corner radii (outer R24, inner R12) to create depth through white space rather than heavy drop-shadows.
+              </p>
+              <span className="text-[11px] font-mono text-[#2563EB]">
+                WCAG AA Compliant (7.8:1 contrast)
+              </span>
+            </div>
+
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-6">
+              <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-4">
+                <Target className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-[#0F172A] mb-2">
+                Conversion-First Architecture
+              </h3>
+              <p className="text-xs text-[#475569] leading-relaxed mb-4">
+                Clear value proposition visible above the fold, live interactive dashboard preview, verified social proof metrics, and frictionless 14-day free trial lead capture.
+              </p>
+              <span className="text-[11px] font-mono text-[#059669]">
+                Zero Fake Infrastructure &middot; Firestore Ready
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team Grid */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-[#0F172A] tracking-tight mb-2">
+            The Concept Team
+          </h2>
+          <p className="text-sm text-[#64748B]">
+            Persona profiles created for the FlowDesk AI narrative.
           </p>
         </div>
-      </section>
 
-      {/* Fictional Portfolio Showcase Notice */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
-        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 shadow-sm flex items-start gap-3 text-xs text-amber-950">
-          <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold">Portfolio Project Presentation: </span>
-            {COMPANY_INFO.isFictionalDisclaimer} All forms submit to a live Firestore database or durable persistent client simulation.
-          </div>
-        </div>
-      </div>
-
-      {/* Story & Philosophy Section */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <div className="lg:col-span-6 space-y-5">
-            <SectionHeading
-              align="left"
-              badge="Our Story"
-              title="A Roofing Contractor You Can Actually Trust"
-              subtitle="Over 80% of premature roof failures occur because installers skipped basic code requirements—like using four nails per shingle instead of six, omitting starter strips, or reusing rusted valley metal."
-            />
-
-            <p className="text-sm text-[#64748B] leading-relaxed">
-              At Apex Roofing, we set out to build a professional home-services company that operates with the discipline of commercial architectural contractors. We don’t employ high-pressure salesmen. Our inspectors are trained drone pilots and field technicians who present photographic evidence so you can make informed decisions.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="p-4 rounded-xl bg-white border border-slate-200">
-                <div className="font-bold text-[#0B192C] text-sm">GAF Master Elite</div>
-                <div className="text-xs text-slate-500 mt-1">
-                  Ranked in the top 2% of North American roofing contractors for insurance standing and installation excellence.
-                </div>
-              </div>
-              <div className="p-4 rounded-xl bg-white border border-slate-200">
-                <div className="font-bold text-[#0B192C] text-sm">Golden Pledge Guarantee</div>
-                <div className="text-xs text-slate-500 mt-1">
-                  25-year non-prorated workmanship warranty backed directly by GAF manufacturer factory inspections.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-xl relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {TEAM_MEMBERS.map(member => (
+            <div
+              key={member.name}
+              className="bg-white border border-[#E2E8F0] rounded-xl p-5 text-center shadow-xs"
+            >
               <img
-                src="https://images.unsplash.com/photo-1541888946425-d0fbb186c5f7?auto=format&fit=crop&w=900&q=80"
-                alt="Apex Roofing field supervisors and crew"
+                src={member.avatar}
+                alt={member.name}
                 referrerPolicy="no-referrer"
-                className="w-full h-96 object-cover"
+                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-[#E2E8F0]"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-transparent to-transparent opacity-90" />
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#E8681A]">
-                  Field Rigor
-                </div>
-                <div className="text-lg font-bold">Factory Certified Master Installers</div>
-                <div className="text-xs text-slate-300 mt-1">
-                  Every crew leader has a minimum of 8 years hands-on roofing experience and OSHA-30 safety certification.
-                </div>
-              </div>
+              <h3 className="text-base font-bold text-[#0F172A]">{member.name}</h3>
+              <div className="text-xs font-semibold text-[#2563EB] mb-2">{member.role}</div>
+              <p className="text-xs text-[#64748B] leading-relaxed">{member.bio}</p>
             </div>
-          </div>
-
+          ))}
         </div>
       </section>
 
-      {/* Core Values Grid */}
-      <section className="py-16 bg-white border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Operating Code"
-            title="The 4 Apex Craftsmanship Pillars"
-            subtitle="How we maintain a 4.9-star average across hundreds of completed projects."
-          />
-
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: 'No-Surprise Fixed Bids',
-                desc: 'Once we sign a contract, our price is locked. If we discover rotted decking during tear-off, your first two sheets of plywood are replaced free of charge.',
-                icon: <CheckCircle2 className="w-6 h-6 text-[#E8681A]" />
-              },
-              {
-                title: 'OSHA Safety First',
-                desc: '100% tie-off harness policy for every team member on steep pitch slopes. Full $2M liability and workers compensation protection for your peace of mind.',
-                icon: <HardHat className="w-6 h-6 text-[#E8681A]" />
-              },
-              {
-                title: 'Zero Nail Yard Guarantee',
-                desc: 'We treat your property like our own. Triple magnetic perimeter sweeps ensure no loose nails puncture your tires or endanger your family pets.',
-                icon: <ShieldCheck className="w-6 h-6 text-[#E8681A]" />
-              },
-              {
-                title: 'No High Pressure Sales',
-                desc: 'We present clear drone photos and honest recommendations. We will never push for a full replacement when a targeted repair is appropriate.',
-                icon: <HeartHandshake className="w-6 h-6 text-[#E8681A]" />
-              }
-            ].map((pillar, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-[#FBFBFA] border border-slate-200 shadow-2xs hover:border-[#E8681A]/40 transition-colors"
-              >
-                <div className="w-12 h-12 rounded-xl bg-[#E8681A]/10 flex items-center justify-center mb-4">
-                  {pillar.icon}
-                </div>
-                <h3 className="text-base font-bold text-[#0B192C]">{pillar.title}</h3>
-                <p className="mt-2 text-xs text-[#64748B] leading-relaxed">{pillar.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership & Credentials Banner */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#0B192C] text-white p-8 sm:p-12 rounded-3xl shadow-xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
-            <div className="pt-4 md:pt-0">
-              <div className="text-3xl font-extrabold text-[#E8681A]">#ROC-338291</div>
-              <div className="text-xs font-semibold text-slate-300 mt-1 uppercase tracking-wider">
-                State Licensed Contractor
-              </div>
-              <p className="text-xs text-slate-400 mt-1">Verified with Texas & Colorado Licensing Boards</p>
-            </div>
-
-            <div className="pt-4 md:pt-0">
-              <div className="text-3xl font-extrabold text-white">$2,000,000</div>
-              <div className="text-xs font-semibold text-slate-300 mt-1 uppercase tracking-wider">
-                Liability & Workers' Comp
-              </div>
-              <p className="text-xs text-slate-400 mt-1">Certificates of insurance provided prior to job start</p>
-            </div>
-
-            <div className="pt-4 md:pt-0">
-              <div className="text-3xl font-extrabold text-amber-400">25 Years</div>
-              <div className="text-xs font-semibold text-slate-300 mt-1 uppercase tracking-wider">
-                Golden Pledge Warranty
-              </div>
-              <p className="text-xs text-slate-400 mt-1">100% Non-prorated labor & material coverage</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <CTASection onOpenQuote={onOpenQuote} />
+      {/* CTA */}
+      <CTASection onOpenTrial={onOpenTrial} />
     </div>
   );
 };

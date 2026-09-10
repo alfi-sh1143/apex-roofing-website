@@ -1,440 +1,341 @@
-import React from 'react';
-import { 
-  ArrowRight, 
-  Shield, 
-  PhoneCall, 
-  CheckCircle2, 
-  Camera, 
-  Award, 
-  Sparkles, 
-  MapPin, 
-  Clock, 
-  FileText, 
-  Wrench,
-  ChevronRight
+import React, { useState } from 'react';
+import {
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  CheckCircle2,
+  Play,
+  Layers,
+  Cpu,
+  Clock,
+  Zap,
+  Lock,
+  Workflow,
+  TrendingUp,
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
-import { Page, ServiceType } from '../types';
-import { 
-  COMPANY_INFO, 
-  TRUST_INDICATORS, 
-  SERVICES_DATA, 
-  TESTIMONIALS_DATA, 
-  PROJECT_CASES,
-  SERVICE_AREAS 
-} from '../data/roofingData';
+import { Page } from '../types';
+import {
+  BRAND_CONFIG,
+  TRUST_STATS,
+  FEATURES_DATA,
+  TESTIMONIALS_DATA,
+  PRICING_TIERS,
+  FAQ_ITEMS,
+  INTEGRATIONS_DATA
+} from '../data/flowDeskData';
 import { Button } from '../components/ui/Button';
-import { SectionHeading } from '../components/ui/SectionHeading';
-import { ServiceCard } from '../components/ui/ServiceCard';
+import { FeatureCard } from '../components/ui/FeatureCard';
+import { PricingCard } from '../components/ui/PricingCard';
 import { TestimonialCard } from '../components/ui/TestimonialCard';
-import { TrustBadge } from '../components/ui/TrustBadge';
+import { FAQ } from '../components/ui/FAQ';
+import { DashboardPreview } from '../components/ui/DashboardPreview';
+import { WorkflowPlayground } from '../components/ui/WorkflowPlayground';
 import { CTASection } from '../components/ui/CTASection';
 
 interface HomeProps {
   onNavigate: (page: Page) => void;
-  onSelectService: (serviceId: ServiceType) => void;
-  onOpenQuote: (serviceId?: ServiceType) => void;
+  onOpenTrial: (planId?: string) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({
-  onNavigate,
-  onSelectService,
-  onOpenQuote
-}) => {
+export const Home: React.FC<HomeProps> = ({ onNavigate, onOpenTrial }) => {
+  const [pricingIsAnnual, setPricingIsAnnual] = useState(true);
+
   return (
-    <div className="w-full">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-[#0B192C] text-white pt-12 pb-20 sm:pt-16 sm:pb-28 border-b border-slate-800">
-        {/* Background ambient lighting effects */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E8681A]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full bg-[#FAFAFA] text-[#0F172A]">
+      {/* =========================================================================
+          2. HERO SECTION
+         ========================================================================= */}
+      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 overflow-hidden border-b border-[#E2E8F0] bg-white">
+        {/* Subtle geometric dot grid pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#E2E8F0_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-60" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
-              
-              {/* Trust Tag */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-slate-200 mb-6 backdrop-blur-xs">
-                <Shield className="w-4 h-4 text-[#E8681A]" />
-                <span>GAF Master Elite • Top 2% US Roofing Contractor</span>
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-                Architectural Precision. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-[#E8681A] to-amber-200">
-                  Lifetime Roof Protection.
-                </span>
-              </h1>
-
-              {/* Supporting Copy */}
-              <p className="mt-5 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                Apex Roofing delivers code-exceeding residential replacements, rapid leak restorations, and commercial membrane systems. Backed by our 25-year Golden Pledge workmanship warranty and 500+ verified completed projects.
-              </p>
-
-              {/* Value check pills */}
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-300 font-medium">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8681A] shrink-0" />
-                  <span>Free Drone Inspection</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8681A] shrink-0" />
-                  <span>25-Yr Workmanship Warranty</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#E8681A] shrink-0" />
-                  <span>$2M Fully Insured</span>
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  variant="primary"
-                  onClick={() => onOpenQuote('roof-replacement')}
-                  rightIcon={<ArrowRight className="w-5 h-5" />}
-                  className="shadow-lg shadow-orange-900/30"
-                >
-                  Get a Free Quote
-                </Button>
-
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => onNavigate('services')}
-                  className="text-white border-slate-700 hover:bg-white/10 hover:border-slate-500"
-                >
-                  View Our Services
-                </Button>
-              </div>
-
-              {/* Quick direct phone callout */}
-              <div className="mt-8 pt-6 border-t border-slate-800/80 flex items-center gap-3 text-xs text-slate-400">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                </div>
-                <div>
-                  <span className="text-slate-300 font-semibold">Immediate Storm Emergency Hotline: </span>
-                  <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-amber-400 font-bold hover:underline">
-                    {COMPANY_INFO.phone}
-                  </a>
-                  <span className="text-slate-400 ml-1">(24/7 Dispatch)</span>
-                </div>
-              </div>
-
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Portfolio Project Chip */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-xs font-semibold text-[#2563EB] mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Next-Generation Work Intelligence Platform</span>
             </div>
 
-            {/* Right Visual Image & Lead Card Column */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/80 shadow-2xl bg-slate-900">
-                <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
-                  alt="Apex Roofing residential replacement project"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-[380px] sm:h-[440px] object-cover opacity-90 hover:scale-102 transition-transform duration-700"
-                />
-                
-                {/* Visual Glass Overlay Badge */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-transparent to-black/20" />
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#0F172A] leading-[1.08] mb-6">
+              Turn scattered work into{' '}
+              <span className="text-[#2563EB]">intelligent workflows.</span>
+            </h1>
 
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-[#0B192C]/90 backdrop-blur-md border border-white/15 text-white">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-[#E8681A] flex items-center justify-center text-white">
-                        <Camera className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white">Austin, TX Hill Country Estate</div>
-                        <div className="text-[11px] text-slate-300">Class-4 Impact Architectural Shingles</div>
-                      </div>
-                    </div>
-                    <span className="text-xs font-bold text-[#E8681A] bg-white/10 px-2 py-1 rounded">
-                      Completed 2 Days
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Subtitle */}
+            <p className="text-lg sm:text-xl text-[#475569] max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
+              FlowDesk AI unifies your backlog, calendar, pull requests, and Slack conversations into an autonomous context graph—eliminating triage thrash and defending your team’s deep focus.
+            </p>
 
-              {/* Floating review card */}
-              <div className="hidden sm:flex absolute -top-5 -left-5 bg-white text-[#0B192C] p-3.5 rounded-xl shadow-xl border border-slate-200 items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm">
-                  ★
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-[#0B192C]">4.9 / 5.0 Star Rating</div>
-                  <div className="text-[10px] text-[#64748B]">380+ Verified Homeowners</div>
-                </div>
-              </div>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-10">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => onOpenTrial('Pro')}
+                rightIcon={<ArrowRight className="w-4 h-4" />}
+                className="w-full sm:w-auto"
+              >
+                Start 14-Day Free Trial
+              </Button>
 
+              <button
+                onClick={() => {
+                  const el = document.getElementById('interactive-preview');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] text-xs sm:text-sm font-semibold text-[#0F172A] transition-colors cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 fill-current text-[#2563EB]" />
+                <span>Explore Interactive Workspace</span>
+              </button>
             </div>
 
+            {/* Hero Trust Micro-Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-[#64748B]">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#059669]" />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#059669]" />
+                <span>2-minute setup via OAuth</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
+                <span>SOC2 Type II & Zero Model Training</span>
+              </div>
+            </div>
+          </div>
+
+          {/* =========================================================================
+              3. PRODUCT / DASHBOARD VISUAL
+             ========================================================================= */}
+          <div id="interactive-preview" className="mt-14 sm:mt-16 max-w-6xl mx-auto">
+            <DashboardPreview />
           </div>
         </div>
       </section>
 
-      {/* 2. TRUST INDICATORS BAR */}
-      <section className="py-10 bg-[#F3F4F1] border-b border-slate-200">
+      {/* =========================================================================
+          4. SOCIAL PROOF & METRICS STRIP
+         ========================================================================= */}
+      <section className="py-12 bg-white border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {TRUST_INDICATORS.map((item, idx) => (
-              <TrustBadge key={idx} item={item} />
+          {/* Partner Brands */}
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
+              Trusted by engineering and product teams across high-velocity technology companies
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all">
+            {BRAND_CONFIG.socialProofLogos.map((brand, i) => (
+              <span
+                key={i}
+                className="text-base sm:text-lg font-extrabold text-[#334155] tracking-tight hover:text-[#0F172A] transition-colors"
+              >
+                {brand}
+              </span>
+            ))}
+          </div>
+
+          {/* Concrete Numbers Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-12 pt-10 border-t border-[#F1F5F9]">
+            {TRUST_STATS.map((stat, i) => (
+              <div key={i} className="text-center p-3">
+                <div className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-xs font-semibold text-[#2563EB] mb-1">
+                  {stat.label}
+                </div>
+                <p className="text-[11px] text-[#64748B]">
+                  {stat.detail}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. CORE SERVICES SECTION */}
-      <section className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Engineered Roofing Solutions"
-            title="Comprehensive Services Built for Longevity"
-            subtitle="From emergency storm repairs to full architectural replacements and commercial membranes, our GAF Master Elite certified team delivers unmatched craftsmanship."
-          />
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES_DATA.map(service => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                onSelectService={onSelectService}
-                onRequestQuote={onOpenQuote}
-              />
-            ))}
+      {/* =========================================================================
+          5. CORE FEATURES SECTION
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center mb-14">
+          <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+            <Cpu className="w-3.5 h-3.5" />
+            <span>Autonomous Intelligence</span>
           </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight mb-4">
+            Architected to eliminate cognitive fragmentation.
+          </h2>
+          <p className="text-base text-[#475569] leading-relaxed">
+            Stop switching between 14 open tabs. FlowDesk AI autonomously connects tools, synthesizes tasks, resolves blockers, and guards your schedule.
+          </p>
+        </div>
 
-          <div className="mt-12 text-center">
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => onNavigate('services')}
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-            >
-              Explore Full Service Specifications & Materials Matrix
-            </Button>
-          </div>
+        {/* 6 Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FEATURES_DATA.map((feat, idx) => (
+            <FeatureCard
+              key={feat.id}
+              feature={feat}
+              index={idx}
+              onExplore={() => onNavigate('features')}
+            />
+          ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Button
+            variant="outline"
+            size="md"
+            onClick={() => onNavigate('features')}
+            rightIcon={<ArrowRight className="w-4 h-4" />}
+          >
+            Explore Full Architecture & Technical Deep Dive
+          </Button>
         </div>
       </section>
 
-      {/* 4. WHY CHOOSE APEX ROOFING */}
-      <section className="py-16 sm:py-24 bg-[#FBFBFA] border-y border-slate-200">
+      {/* =========================================================================
+          6. HOW IT WORKS (3-STEP PROGRESSION)
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-white border-y border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div className="lg:col-span-5">
-              <SectionHeading
-                align="left"
-                badge="The Apex Difference"
-                title="Why Property Owners Choose Us Over Storm Chasers"
-                subtitle="Most roofing issues originate from negligent installation shortcuts, not defective materials. Here is how Apex eliminates failure points."
-              />
-
-              <div className="mt-8 space-y-4">
-                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#E8681A]/10 text-[#E8681A] flex items-center justify-center shrink-0 mt-0.5">
-                      <Award className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-[#0B192C]">GAF Master Elite Certification</h4>
-                      <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
-                        Only the top 2% of roofing contractors qualify. It allows us to back installations with non-prorated 50-year material and 25-year workmanship warranties.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#E8681A]/10 text-[#E8681A] flex items-center justify-center shrink-0 mt-0.5">
-                      <Camera className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-[#0B192C]">High-Res Aerial Drone Diagnostics</h4>
-                      <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
-                        We capture 4K photogrammetry of every slope, valley, and penetration without damaging weathered shingles through foot traffic.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#E8681A]/10 text-[#E8681A] flex items-center justify-center shrink-0 mt-0.5">
-                      <Shield className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-[#0B192C]">Zero Nail Property Protection</h4>
-                      <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
-                        We deploy Catch-All net shielding over flowerbeds and run three independent magnetic roller sweeps over your driveways and yard.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+              <Workflow className="w-3.5 h-3.5" />
+              <span>Effortless Onboarding</span>
             </div>
-
-            <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md">
-                  <img
-                    src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=700&q=80"
-                    alt="Precision roofing craftsmanship"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="p-4 bg-white">
-                    <div className="text-xs font-bold text-[#0B192C]">Certified Flashing & Valley Waterproofing</div>
-                    <p className="text-[11px] text-slate-500 mt-1">Ice & water shielding deployed at all high-stress seams.</p>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md sm:mt-6">
-                  <img
-                    src="https://images.unsplash.com/photo-1621847468516-1ed5d0df56fe?auto=format&fit=crop&w=700&q=80"
-                    alt="Thermal moisture diagnostic"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="p-4 bg-white">
-                    <div className="text-xs font-bold text-[#0B192C]">Thermal Moisture Leak Tracing</div>
-                    <p className="text-[11px] text-slate-500 mt-1">Pinpoint leaks without invasive destruction.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+              From chaos to clarity in 3 steps.
+            </h2>
+            <p className="text-base text-[#64748B]">
+              No heavy migration or manual ticket re-tagging required. FlowDesk sits seamlessly atop your existing tools.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* 5. 4-STEP PRECISION PROCESS */}
-      <section className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Streamlined Client Experience"
-            title="Our 4-Step Precision Project Workflow"
-            subtitle="No surprises, no hidden line items, and no high-pressure sales tactics. Here is how we take you from inspection to a lifetime guaranteed roof."
-          />
-
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {[
               {
                 step: '01',
-                title: 'Free Drone Inspection',
-                desc: 'We perform a 4K aerial scan and interior attic inspection to evaluate ventilation and decking integrity.',
-                icon: <Camera className="w-5 h-5 text-white" />
+                title: 'Connect Existing Tools',
+                tag: '1-Click OAuth',
+                desc: 'Authorize read-write access to GitHub, Slack, Jira, Linear, and Google Calendar. Zero manual data entry.',
+                highlight: '2-minute setup'
               },
               {
                 step: '02',
-                title: 'Fixed-Price Estimate',
-                desc: 'You receive an itemized, transparent proposal with photos, material choices, and 0% APR financing options.',
-                icon: <FileText className="w-5 h-5 text-white" />
+                title: 'AI Synthesizes Context Graph',
+                tag: 'Autonomous RAG',
+                desc: 'Our semantic agent links PRs to backlog items, detects hidden cross-team dependencies, and prioritizes sprints.',
+                highlight: 'Real-time sync'
               },
               {
                 step: '03',
-                title: '1-to-2 Day Precision Build',
-                desc: 'Our certified crews protect your landscaping, tear off old decking, and install your new roofing envelope.',
-                icon: <Wrench className="w-5 h-5 text-white" />
-              },
-              {
-                step: '04',
-                title: '21-Point Audit & Warranty',
-                desc: 'Supervisor sign-off, magnetic nail sweep, and delivery of your 25-year non-prorated warranty certificate.',
-                icon: <Award className="w-5 h-5 text-white" />
+                title: 'Defend Focus & Ship Velocity',
+                tag: 'Automated Shield',
+                desc: 'FlowDesk rebalances conflicting meetings, generates executive digests, and triggers actions without human friction.',
+                highlight: '+4.2 hrs deep work'
               }
-            ].map((step, idx) => (
+            ].map((st, i) => (
               <div
-                key={idx}
-                className="p-6 rounded-2xl bg-[#FBFBFA] border border-slate-200/90 flex flex-col justify-between hover:border-[#E8681A]/40 transition-colors shadow-2xs relative"
+                key={i}
+                className="relative bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-7 flex flex-col justify-between hover:border-[#2563EB]/40 transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#0B192C] flex items-center justify-center">
-                      {step.icon}
-                    </div>
-                    <span className="text-2xl font-black text-slate-300 font-mono">
-                      {step.step}
+                    <span className="font-mono text-3xl font-extrabold text-[#CBD5E1]">
+                      {st.step}
+                    </span>
+                    <span className="text-[11px] font-semibold bg-white border border-[#E2E8F0] px-2.5 py-1 rounded-md text-[#2563EB]">
+                      {st.tag}
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-[#0B192C]">{step.title}</h3>
-                  <p className="mt-2 text-xs text-[#64748B] leading-relaxed">{step.desc}</p>
+
+                  <h3 className="text-lg font-bold text-[#0F172A] mb-2">
+                    {st.title}
+                  </h3>
+                  <p className="text-sm text-[#475569] leading-relaxed mb-6">
+                    {st.desc}
+                  </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-200/60 flex items-center text-xs font-semibold text-[#E8681A]">
-                  <span>Step {idx + 1} of 4</span>
+                <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-between text-xs">
+                  <span className="text-[#059669] font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    {st.highlight}
+                  </span>
+                  <span className="text-[#64748B]">Step {i + 1} of 3</span>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="mt-12 text-center">
-            <Button
-              size="lg"
-              variant="primary"
-              onClick={() => onOpenQuote('roof-inspection')}
-            >
-              Book Your Free Drone Inspection (Step 1)
-            </Button>
-          </div>
         </div>
       </section>
 
-      {/* 6. PROJECT SHOWCASE SECTION */}
-      <section className="py-16 sm:py-24 bg-[#07101C] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            light
-            badge="Craftsmanship Portfolio"
-            title="Recent Completed Projects"
-            subtitle="A selection of high-performance architectural shingle, standing seam metal, and commercial installations delivered by our crews."
-          />
+      {/* =========================================================================
+          7. AI WORKFLOW DEMONSTRATION
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center">
+          <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+            <Zap className="w-3.5 h-3.5" />
+            <span>Live Interactive Demo</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+            Watch an autonomous workflow in motion.
+          </h2>
+          <p className="text-base text-[#64748B] max-w-2xl mx-auto">
+            Test how FlowDesk AI receives incoming incidents, reasons over dependencies, and coordinates downstream systems.
+          </p>
+        </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {PROJECT_CASES.map(project => (
+        <WorkflowPlayground />
+      </section>
+
+      {/* =========================================================================
+          8. INTEGRATIONS ECOSYSTEM
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-white border-y border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+              <Layers className="w-3.5 h-3.5" />
+              <span>Native Stack Integrations</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+              Plugs directly into the tools your team uses daily.
+            </h2>
+            <p className="text-base text-[#64748B]">
+              Bi-directional, low-latency sync with industry-standard engineering, design, and product platforms.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {INTEGRATIONS_DATA.map(tool => (
               <div
-                key={project.id}
-                className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden flex flex-col group shadow-lg"
+                key={tool.name}
+                className="bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl p-5 transition-all text-left"
               >
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#0B192C]/90 backdrop-blur-xs px-2.5 py-1 rounded text-xs font-semibold text-amber-400 border border-amber-400/30">
-                    {project.category}
-                  </div>
-                  <div className="absolute bottom-3 left-3 right-3 text-xs bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded text-slate-200 flex items-center justify-between">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-[#E8681A]" />
-                      {project.location}
-                    </span>
-                    <span className="flex items-center gap-1 text-[#E8681A] font-bold">
-                      <Clock className="w-3 h-3" />
-                      {project.duration}
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-base font-bold text-[#0F172A]">{tool.name}</span>
+                  <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded bg-white text-[#2563EB] border border-[#E2E8F0]">
+                    {tool.category}
+                  </span>
                 </div>
-
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-white group-hover:text-[#E8681A] transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="text-slate-300 font-medium">{project.statHighlight}</span>
-                  </div>
+                <p className="text-xs text-[#64748B] leading-relaxed mb-3">
+                  {tool.description}
+                </p>
+                <div className="text-[11px] text-[#059669] font-medium flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span>{tool.syncStatus || 'Two-way real-time sync'}</span>
                 </div>
               </div>
             ))}
@@ -442,70 +343,109 @@ export const Home: React.FC<HomeProps> = ({
         </div>
       </section>
 
-      {/* 7. TESTIMONIALS SECTION */}
-      <section className="py-16 sm:py-24 bg-[#FBFBFA]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="Verified Client Experiences"
-            title="Real Reviews From Real Homeowners"
-            subtitle="Over 380+ 5-star ratings across Google and the Better Business Bureau. See what local property owners say about our reliability and cleanliness."
-          />
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {TESTIMONIALS_DATA.map(testimonial => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
+      {/* =========================================================================
+          9. TESTIMONIALS SECTION
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center mb-14">
+          <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>Proven Customer Impact</span>
           </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+            Loved by engineering leads and product directors.
+          </h2>
+          <p className="text-base text-[#64748B]">
+            See how teams use FlowDesk AI to cut sprint planning churn and ship faster with less anxiety.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {TESTIMONIALS_DATA.map(t => (
+            <TestimonialCard key={t.id} testimonial={t} />
+          ))}
         </div>
       </section>
 
-      {/* 8. SERVICE AREAS SECTION */}
-      <section className="py-16 sm:py-20 bg-white border-t border-slate-200">
+      {/* =========================================================================
+          10. PRICING PREVIEW
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-white border-y border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-8 sm:p-12 rounded-3xl bg-[#0B192C] text-white">
-            <div className="max-w-3xl">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E8681A]">
-                Regional Coverage
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-                Serving Greater Texas & Colorado Metro Communities
-              </h3>
-              <p className="mt-2 text-sm text-slate-300">
-                Our rapid-response emergency roofing fleet is positioned across five major regional hubs, providing same-day drone damage assessments and leak mitigation.
-              </p>
+          <div className="max-w-3xl mx-auto text-center mb-10">
+            <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Transparent Pricing</span>
             </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight mb-3">
+              Simple, predictable tiers for every team size.
+            </h2>
+            <p className="text-base text-[#64748B] mb-6">
+              Start free forever with your core pod. Upgrade as your automated pipeline requirements grow.
+            </p>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-              {SERVICE_AREAS.map((area, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 text-left">
-                  <div className="flex items-center gap-1.5 text-amber-400 text-xs font-bold mb-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{area.city}</span>
-                  </div>
-                  <div className="text-[11px] text-slate-400">{area.counties}</div>
-                  <div className="mt-2 text-[10px] text-emerald-400 font-semibold inline-flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    {area.eta}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
-              <span>Do not see your county? We frequently travel up to 100 miles for full roof replacements.</span>
+            {/* Annual vs Monthly Toggle */}
+            <div className="inline-flex items-center bg-[#F1F5F9] p-1 rounded-xl border border-[#E2E8F0]">
               <button
-                onClick={() => onOpenQuote('roof-inspection')}
-                className="text-[#E8681A] hover:underline font-bold flex items-center gap-1"
+                onClick={() => setPricingIsAnnual(false)}
+                className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
+                  !pricingIsAnnual
+                    ? 'bg-white text-[#0F172A] shadow-xs'
+                    : 'text-[#64748B] hover:text-[#0F172A]'
+                }`}
               >
-                Check Your Address with Estimator →
+                Monthly billing
+              </button>
+              <button
+                onClick={() => setPricingIsAnnual(true)}
+                className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  pricingIsAnnual
+                    ? 'bg-white text-[#0F172A] shadow-xs'
+                    : 'text-[#64748B] hover:text-[#0F172A]'
+                }`}
+              >
+                <span>Annual billing</span>
+                <span className="text-[10px] font-bold bg-[#ECFDF5] text-[#059669] px-1.5 py-0.5 rounded">
+                  Save 20%
+                </span>
               </button>
             </div>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {PRICING_TIERS.map(tier => (
+              <PricingCard
+                key={tier.id}
+                tier={tier}
+                isAnnual={pricingIsAnnual}
+                onSelectPlan={(id) => onOpenTrial(tier.name)}
+              />
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <button
+              onClick={() => onNavigate('pricing')}
+              className="text-xs font-semibold text-[#2563EB] hover:underline inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>View full 24-feature comparison matrix & enterprise SLAs</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* 9. STRONG FINAL CTA SECTION */}
-      <CTASection onOpenQuote={() => onOpenQuote('roof-replacement')} />
+      {/* =========================================================================
+          11. FAQ ACCORDION SECTION
+         ========================================================================= */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FAQ items={FAQ_ITEMS} />
+      </section>
+
+      {/* =========================================================================
+          12. FINAL CONVERSION CTA SECTION
+         ========================================================================= */}
+      <CTASection onOpenTrial={onOpenTrial} />
     </div>
   );
 };

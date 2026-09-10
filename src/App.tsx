@@ -1,39 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Page, ServiceType, QuoteSubmission } from './types';
-import { fetchAllQuoteSubmissions } from './lib/firestoreService';
+import { Page } from './types';
+import { fetchAllSubmissions } from './lib/firestoreService';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Home } from './pages/Home';
-import { Services } from './pages/Services';
-import { ServiceDetails } from './pages/ServiceDetails';
+import { Features } from './pages/Features';
+import { Pricing } from './pages/Pricing';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
-import { QuoteModal } from './components/modals/QuoteModal';
-import { QuoteSubmissionsModal } from './components/modals/QuoteSubmissionsModal';
+import { FreeTrialModal } from './components/modals/FreeTrialModal';
+import { SubmissionsModal } from './components/modals/SubmissionsModal';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [selectedServiceId, setSelectedServiceId] = useState<ServiceType>('roof-replacement');
-  
-  // Modals state
-  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
-  const [quoteModalService, setQuoteModalService] = useState<ServiceType>('roof-replacement');
+  const [trialModalOpen, setTrialModalOpen] = useState(false);
+  const [trialInitialPlan, setTrialInitialPlan] = useState('Pro');
+  const [trialInitialEmail, setTrialInitialEmail] = useState('');
   const [submissionsModalOpen, setSubmissionsModalOpen] = useState(false);
+  const [submissionsCount, setSubmissionsCount] = useState(0);
 
-  // Submissions list
-  const [submissions, setSubmissions] = useState<QuoteSubmission[]>([]);
-
-  const loadSubmissions = async () => {
+  const refreshSubmissionsCount = async () => {
     try {
-      const data = await fetchAllQuoteSubmissions();
-      setSubmissions(data);
+      const data = await fetchAllSubmissions();
+      setSubmissionsCount(data.trials.length + data.inquiries.length);
     } catch (err) {
-      console.warn('Could not load submissions:', err);
+      console.warn('Could not load submissions count:', err);
     }
   };
 
   useEffect(() => {
-    loadSubmissions();
+    refreshSubmissionsCount();
   }, []);
 
   const handleNavigate = (page: Page) => {
@@ -41,93 +37,81 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectService = (serviceId: ServiceType) => {
-    setSelectedServiceId(serviceId);
-    setCurrentPage('service-details');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleOpenQuote = (serviceId?: ServiceType) => {
-    if (serviceId) {
-      setQuoteModalService(serviceId);
-    }
-    setQuoteModalOpen(true);
-  };
-
-  const handleQuoteSubmitted = () => {
-    loadSubmissions();
+  const handleOpenTrial = (planId?: string, email?: string) => {
+    if (planId) setTrialInitialPlan(planId);
+    if (email) setTrialInitialEmail(email);
+    setTrialModalOpen(true);
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FBFBFA] text-[#1E293B]">
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#0F172A] selection:bg-[#2563EB] selection:text-white">
       {/* Sticky Navigation Bar */}
       <Navbar
         currentPage={currentPage}
         onNavigate={handleNavigate}
-        onOpenQuoteModal={() => handleOpenQuote()}
+        onOpenTrialModal={handleOpenTrial}
         onOpenSubmissionsModal={() => setSubmissionsModalOpen(true)}
-        submissionsCount={submissions.length}
+        submissionsCount={submissionsCount}
       />
 
-      {/* Main Page Content */}
+      {/* Main Page Routing */}
       <main className="flex-1 w-full">
         {currentPage === 'home' && (
           <Home
             onNavigate={handleNavigate}
-            onSelectService={handleSelectService}
-            onOpenQuote={handleOpenQuote}
+            onOpenTrial={handleOpenTrial}
           />
         )}
 
-        {currentPage === 'services' && (
-          <Services
-            onSelectService={handleSelectService}
-            onOpenQuote={handleOpenQuote}
+        {currentPage === 'features' && (
+          <Features
+            onNavigate={handleNavigate}
+            onOpenTrial={handleOpenTrial}
           />
         )}
 
-        {currentPage === 'service-details' && (
-          <ServiceDetails
-            selectedServiceId={selectedServiceId}
-            onSelectService={setSelectedServiceId}
-            onOpenQuote={handleOpenQuote}
-            onViewSubmissions={() => setSubmissionsModalOpen(true)}
+        {currentPage === 'pricing' && (
+          <Pricing
+            onNavigate={handleNavigate}
+            onOpenTrial={handleOpenTrial}
           />
         )}
 
         {currentPage === 'about' && (
-          <About onOpenQuote={() => handleOpenQuote()} />
+          <About
+            onNavigate={handleNavigate}
+            onOpenTrial={() => handleOpenTrial('Pro')}
+          />
         )}
 
         {currentPage === 'contact' && (
           <Contact
-            onViewSubmissions={() => setSubmissionsModalOpen(true)}
+            onNavigate={handleNavigate}
+            onOpenTrial={() => handleOpenTrial('Enterprise')}
           />
         )}
       </main>
 
-      {/* Global Agency Footer */}
+      {/* Global SaaS Footer */}
       <Footer
         onNavigate={handleNavigate}
-        onSelectService={handleSelectService}
-        onOpenQuote={() => handleOpenQuote()}
-        onOpenSubmissionsModal={() => setSubmissionsModalOpen(true)}
+        onOpenTrial={() => handleOpenTrial('Pro')}
       />
 
-      {/* Reusable Quote Modal */}
-      <QuoteModal
-        isOpen={quoteModalOpen}
-        onClose={() => setQuoteModalOpen(false)}
-        selectedService={quoteModalService}
-        onViewSubmissions={() => setSubmissionsModalOpen(true)}
+      {/* 14-Day Free Trial Lead Capture Modal */}
+      <FreeTrialModal
+        isOpen={trialModalOpen}
+        onClose={() => setTrialModalOpen(false)}
+        initialPlan={trialInitialPlan}
+        initialEmail={trialInitialEmail}
+        onSuccess={refreshSubmissionsCount}
       />
 
-      {/* Submissions & Leads Inspector Modal */}
-      <QuoteSubmissionsModal
+      {/* Submissions & Firestore Records Inspector Modal */}
+      <SubmissionsModal
         isOpen={submissionsModalOpen}
         onClose={() => setSubmissionsModalOpen(false)}
-        submissions={submissions}
-        onRefresh={loadSubmissions}
+        onSubmissionsUpdated={setSubmissionsCount}
       />
     </div>
   );

@@ -16,26 +16,32 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    function isValidQuote(data) {
-      return data.keys().hasAll(['fullName', 'email', 'phone', 'propertyType', 'serviceRequired']) &&
+    function isValidTrial(data) {
+      return data.keys().hasAll(['fullName', 'email', 'companyName', 'teamSize']) &&
         data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
         data.email is string && data.email.size() >= 5 && data.email.size() <= 120 &&
-        data.phone is string && data.phone.size() >= 7 && data.phone.size() <= 30 &&
-        data.propertyType in ['residential', 'commercial', 'multi-family', 'industrial'] &&
-        data.serviceRequired in ['roof-replacement', 'roof-repair', 'commercial-roofing', 'roof-inspection', 'emergency-repair'] &&
-        (!('message' in data) || (data.message is string && data.message.size() <= 2000)) &&
-        (!('estimatedSqFt' in data) || (data.estimatedSqFt is string && data.estimatedSqFt.size() <= 50)) &&
-        (!('roofAge' in data) || (data.roofAge is string && data.roofAge.size() <= 50)) &&
-        (!('referenceNumber' in data) || (data.referenceNumber is string && data.referenceNumber.size() <= 32));
+        data.companyName is string && data.companyName.size() <= 120 &&
+        data.teamSize is string && data.teamSize.size() <= 50;
     }
 
-    match /quotes/{quoteId} {
-      // Anyone can submit a quote request with valid data
-      allow create: if isValidId(quoteId) && isValidQuote(request.resource.data);
+    function isValidInquiry(data) {
+      return data.keys().hasAll(['fullName', 'email', 'message']) &&
+        data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
+        data.email is string && data.email.size() >= 5 && data.email.size() <= 120 &&
+        data.message is string && data.message.size() <= 2500;
+    }
 
-      // Staff/admins can read and list quotes (or if authenticated user owns the submission)
+    match /trial_leads/{leadId} {
+      allow create: if isValidId(leadId) && isValidTrial(request.resource.data);
+      allow read, list: if isSignedIn();
+      allow update, delete: if isSignedIn();
+    }
+
+    match /contact_inquiries/{inquiryId} {
+      allow create: if isValidId(inquiryId) && isValidInquiry(request.resource.data);
       allow read, list: if isSignedIn();
       allow update, delete: if isSignedIn();
     }
   }
 }
+

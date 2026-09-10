@@ -1,6 +1,6 @@
 {
-  "name": "Apex Roofing",
-  "description": "Production-quality website and quote generation platform for Apex Roofing, a premium residential and commercial roofing contractor.",
+  "name": "FlowDesk AI",
+  "description": "FlowDesk AI — Premium SaaS marketing website for an intelligent workflow and AI productivity platform. Turn scattered work into intelligent workflows.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
