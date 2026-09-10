@@ -1,0 +1,6 @@
+{
+  "name": "Apex Roofing",
+  "description": "Production-quality website and quote generation platform for Apex Roofing, a premium residential and commercial roofing contractor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "Quote": {
+      "title": "Quote",
+      "description": "A roofing quote request submitted by a residential or commercial customer",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the contact person",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Contact email address",
+          "format": "email",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact phone number",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "propertyType": {
+          "type": "string",
+          "description": "Type of property",
+          "enum": ["residential", "commercial", "multi-family", "industrial"]
+        },
+        "serviceRequired": {
+          "type": "string",
+          "description": "Requested roofing service",
+          "enum": ["roof-replacement", "roof-repair", "commercial-roofing", "roof-inspection", "emergency-repair"]
+        },
+        "estimatedSqFt": {
+          "type": "string",
+          "description": "Optional estimated square footage range",
+          "maxLength": 50
+        },
+        "roofAge": {
+          "type": "string",
+          "description": "Optional estimated roof age in years",
+          "maxLength": 50
+        },
+        "message": {
+          "type": "string",
+          "description": "Project details or damage description",
+          "maxLength": 2000
+        },
+        "referenceNumber": {
+          "type": "string",
+          "description": "Unique reference tracking code",
+          "pattern": "^APX-[A-Z0-9]{5,8}$",
+          "maxLength": 32
+        },
+        "status": {
+          "type": "string",
+          "description": "Lead management status",
+          "enum": ["new", "contacted", "scheduled", "completed", "archived"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        }
+      },
+      "required": ["fullName", "email", "phone", "propertyType", "serviceRequired"]
+    }
+  },
+  "firestore": {
+    "/quotes/{quoteId}": {
+      "schema": "Quote",
+      "description": "Customer submitted roofing quote requests"
+    }
+  }
+}

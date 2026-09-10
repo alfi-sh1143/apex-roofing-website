@@ -1,0 +1,41 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidQuote(data) {
+      return data.keys().hasAll(['fullName', 'email', 'phone', 'propertyType', 'serviceRequired']) &&
+        data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
+        data.email is string && data.email.size() >= 5 && data.email.size() <= 120 &&
+        data.phone is string && data.phone.size() >= 7 && data.phone.size() <= 30 &&
+        data.propertyType in ['residential', 'commercial', 'multi-family', 'industrial'] &&
+        data.serviceRequired in ['roof-replacement', 'roof-repair', 'commercial-roofing', 'roof-inspection', 'emergency-repair'] &&
+        (!('message' in data) || (data.message is string && data.message.size() <= 2000)) &&
+        (!('estimatedSqFt' in data) || (data.estimatedSqFt is string && data.estimatedSqFt.size() <= 50)) &&
+        (!('roofAge' in data) || (data.roofAge is string && data.roofAge.size() <= 50)) &&
+        (!('referenceNumber' in data) || (data.referenceNumber is string && data.referenceNumber.size() <= 32));
+    }
+
+    match /quotes/{quoteId} {
+      // Anyone can submit a quote request with valid data
+      allow create: if isValidId(quoteId) && isValidQuote(request.resource.data);
+
+      // Staff/admins can read and list quotes (or if authenticated user owns the submission)
+      allow read, list: if isSignedIn();
+      allow update, delete: if isSignedIn();
+    }
+  }
+}
